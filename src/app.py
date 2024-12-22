@@ -3,6 +3,7 @@ from flask import Flask, request, render_template
 from pickle import load
 import os
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import AdaBoostRegressor
 
 app = Flask(__name__)
 
