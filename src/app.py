@@ -1,14 +1,20 @@
-# coloco el còdigo
 from flask import Flask, request, render_template
 from pickle import load
 import os
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
 
 app = Flask(__name__)
 
+# Ruta al archivo del modelo
+model = "/opt/render/project/src/models/modelo_adaboost_optimizado.pkl"
+
+# Verificar la existencia del archivo del modelo
+if not os.path.exists(model):
+    raise FileNotFoundError(f"El archivo {model} no existe")
+
 # Cargar el modelo
-model = load(open("/workspaces/Proyecto_Deep_Learning_Flask_Jorge3127/models/modelo_adaboost_optimizado.pkl", "rb"))
+with open(model, "rb") as f:
+    model = load(f)
 
 # Diccionario de clases
 class_dict = {
