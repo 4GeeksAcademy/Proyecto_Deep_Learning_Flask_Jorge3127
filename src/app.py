@@ -2,6 +2,7 @@
 from flask import Flask, request, render_template
 from pickle import load
 import os
+from sklearn.ensemble import AdaBoostClassifier
 
 app = Flask(__name__)
 
