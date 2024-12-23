@@ -6,7 +6,7 @@ from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
 app = Flask(__name__)
 
 # Ruta al archivo del modelo
-model = "/opt/render/project/src/models/modelo_adaboost_optimizado_corrido.pkl"
+model = ("/opt/render/project/src/models/modelo_adaboost_optimizado_corrido.pkl", "rb")
 
 # Verificar la existencia del archivo del modelo
 if not os.path.exists(model):
