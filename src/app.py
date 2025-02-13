@@ -5,8 +5,8 @@ from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
 
 app = Flask(__name__)
 
-# Ruta al archivo del modelo
-model_path = "/workspaces/Proyecto_Deep_Learning_Flask_Jorge3127/models/modelo_adaboost_optimizado_corrido.pkl"
+# Ruta dinámica para el modelo
+model_path = os.path.join(os.path.dirname(__file__), "models", "modelo_adaboost_optimizado_corrido.pkl")
 
 # Verificar la existencia del archivo del modelo
 if not os.path.exists(model_path):
@@ -57,6 +57,7 @@ def index():
             pred_class = f"Error en la predicción: {e}"
 
     return render_template("formulario.html", prediction=pred_class)
+
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
