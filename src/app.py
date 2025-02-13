@@ -3,10 +3,10 @@ from pickle import load
 import os
 from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='src/templates')
 
 # Ruta dinámica para el modelo
-model_path = os.path.join(os.path.dirname(__file__), "models", "modelo_adaboost_optimizado_corrido.pkl")
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models", "modelo_adaboost_optimizado_corrido.pkl")
 
 # Verificar la existencia del archivo del modelo
 if not os.path.exists(model_path):
