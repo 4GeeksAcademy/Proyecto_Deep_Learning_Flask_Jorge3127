@@ -56,6 +56,9 @@ def index():
             val5 = float(request.form.get("diabetes", "0").replace(",", "."))
             val6 = float(request.form.get("edad", "0").replace(",", "."))
 
+            # Log de los datos recibidos
+            app.logger.debug(f"Datos recibidos: Embarazos={val1}, Glucosa={val2}, Insulina={val3}, BMI={val4}, Diabetes={val5}, Edad={val6}")
+
             # Validar los datos ingresados
             if any(v < 0 for v in [val1, val2, val3, val4, val5, val6]):
                 pred_class = "Error: Todos los valores deben ser positivos."
@@ -64,8 +67,13 @@ def index():
                 data = [[val1, val2, val3, val4, val5, val6]]
 
                 # Realizar la predicción
-                prediction = str(model.predict(data)[0])
-                pred_class = class_dict.get(prediction, "Clase desconocida")
+                try:
+                    prediction = str(model.predict(data)[0])
+                    app.logger.debug(f"Predicción obtenida: {prediction}")
+                    pred_class = class_dict.get(prediction, "Clase desconocida")
+                except Exception as e:
+                    app.logger.error(f"Error durante la predicción: {e}")
+                    pred_class = f"Error en la predicción: {e}"
 
         except ValueError as e:
             app.logger.error(f"Error de conversión: {e}. Datos recibidos: {request.form}")
@@ -79,4 +87,7 @@ def index():
 
 if __name__ == "__main__":
     app.logger.info("Iniciando la aplicación Flask...")
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))")
+    }
+  ]
+}
