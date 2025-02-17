@@ -2,22 +2,34 @@ from flask import Flask, request, render_template
 from pickle import load
 import os
 from sklearn.ensemble import AdaBoostClassifier, AdaBoostRegressor
+import logging
+import sys
 
-app = Flask(__name__, template_folder='src/templates')
+# Configurar logs para Render
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
+app = Flask(__name__, template_folder='templates')
 
 # Ruta dinámica para el modelo
-model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models", "modelo_adaboost_optimizado_corrido.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "models", "modelo_adaboost_optimizado_corrido.pkl")
 
 # Verificar la existencia del archivo del modelo
 if not os.path.exists(model_path):
+    app.logger.error(f"El archivo {model_path} no existe")
     raise FileNotFoundError(f"El archivo {model_path} no existe")
 
 # Cargar el modelo
-with open(model_path, "rb") as f:
-    model = load(f)
+try:
+    with open(model_path, "rb") as f:
+        model = load(f)
+    app.logger.info("Modelo cargado correctamente.")
+except Exception as e:
+    app.logger.error(f"Error al cargar el modelo: {e}")
+    raise
 
 # Verificar el tipo de modelo
 if not isinstance(model, (AdaBoostClassifier, AdaBoostRegressor)):
+    app.logger.error("El archivo cargado no es un modelo AdaBoost válido.")
     raise TypeError("El archivo cargado no es un modelo AdaBoost válido.")
 
 # Diccionario de clases
@@ -54,10 +66,12 @@ def index():
         except ValueError:
             pred_class = "Error: Ingrese valores numéricos válidos."
         except Exception as e:
+            app.logger.error(f"Error en la predicción: {e}")
             pred_class = f"Error en la predicción: {e}"
 
     return render_template("formulario.html", prediction=pred_class)
 
 
 if __name__ == "__main__":
+    app.logger.info("Iniciando la aplicación Flask...")
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
