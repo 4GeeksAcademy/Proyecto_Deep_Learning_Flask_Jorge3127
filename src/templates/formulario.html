@@ -108,6 +108,9 @@
                 <input type="number" id="edad" name="edad" step="any" min="0" pattern="[0-9]+([\.][0-9]+)?" required>
             </div>
             <button type="submit" class="btn-submit">Predecir Diabetes</button>
+            <div class="value-display">
+                Resultado de la predicción: {{ prediction }}
+            </div>
         </form>
     </div>
 </body>
