@@ -11,7 +11,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 app = Flask(__name__, template_folder='templates')
 
 # Ruta dinámica para el modelo
-model_path = os.path.join(os.path.dirname(__file__), "models", "modelo_adaboost_optimizado_corrido.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "..", "models", "modelo_adaboost_optimizado_corrido.pkl")
 
 # Agregar logs para verificar la ruta y la existencia del archivo
 app.logger.debug(f"Ruta absoluta calculada del modelo: {os.path.abspath(model_path)}")
