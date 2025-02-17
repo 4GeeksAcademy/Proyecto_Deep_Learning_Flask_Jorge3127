@@ -13,6 +13,11 @@ app = Flask(__name__, template_folder='templates')
 # Ruta dinámica para el modelo
 model_path = os.path.join(os.path.dirname(__file__), "models", "modelo_adaboost_optimizado_corrido.pkl")
 
+# Agregar logs para verificar la ruta y la existencia del archivo
+app.logger.debug(f"Ruta absoluta calculada del modelo: {os.path.abspath(model_path)}")
+app.logger.debug(f"¿Existe el archivo?: {os.path.exists(model_path)}")
+
+
 # Verificar la existencia del archivo del modelo
 if not os.path.exists(model_path):
     app.logger.error(f"El archivo {model_path} no existe")
