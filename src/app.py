@@ -27,13 +27,14 @@ try:
     with open(model_path, "rb") as f:
         model = load(f)
     app.logger.info("Modelo cargado correctamente.")
+    app.logger.debug(f"Tipo del modelo cargado: {type(model)}")
 except Exception as e:
     app.logger.error(f"Error al cargar el modelo: {e}")
     raise
 
 # Verificar el tipo de modelo
 if not isinstance(model, (AdaBoostClassifier, AdaBoostRegressor)):
-    app.logger.error("El archivo cargado no es un modelo AdaBoost válido.")
+    app.logger.error(f"El archivo cargado no es un modelo AdaBoost válido. Es de tipo: {type(model)}")
     raise TypeError("El archivo cargado no es un modelo AdaBoost válido.")
 
 # Diccionario de clases
